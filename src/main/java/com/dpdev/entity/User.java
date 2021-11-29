@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -19,9 +18,9 @@ public class User {
     private String username;
     private String firstname;
     private String lastname;
-    @Column(name = "birth_day")
-    private LocalDate birthDay;
-    private Integer age;
+  //  @Convert(converter = BirthdayConverter.class)
+    @Column(name = "birth_date")
+    private Birthday birthDate;
     @Enumerated(EnumType.STRING)
     private Role role;
 }

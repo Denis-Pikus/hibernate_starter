@@ -1,5 +1,6 @@
 package com.dpdev;
 
+import com.dpdev.entity.Birthday;
 import com.dpdev.entity.User;
 import org.junit.jupiter.api.Test;
 
@@ -20,11 +21,6 @@ class HibernateRunnerTest {
     @Test
     void checkReflectionApi() throws SQLException, IllegalAccessException {
         User user = User.builder()
-                .username("ivan@gmail.com")
-                .firstname("Ivan")
-                .lastname("Ivanov")
-                .birthDay(LocalDate.of(2000, 1, 19))
-                .age(20)
                 .build();
         String sql = """
                 INSERT 
