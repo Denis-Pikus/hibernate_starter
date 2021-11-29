@@ -1,5 +1,6 @@
 package com.dpdev;
 
+import com.dpdev.entity.Role;
 import com.dpdev.entity.User;
 import org.hibernate.HibernateException;
 import org.hibernate.cfg.Configuration;
@@ -21,6 +22,7 @@ public class HibernateRunner {
                     .lastname("Ivanov")
                     .birthDay(LocalDate.of(2000, 1, 19))
                     .age(20)
+                    .role(Role.ADMIN)
                     .build();
             session.save(user);
             session.getTransaction().commit();
