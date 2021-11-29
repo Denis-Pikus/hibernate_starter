@@ -52,7 +52,5 @@ class HibernateRunnerTest {
 //        for (Field declaredField : declaredFields) {
 //            declaredField.setAccessible(true);
 //            preparedStatement.setObject(1, declaredField.get(user));
-        }
     }
-
 }
