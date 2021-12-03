@@ -1,9 +1,11 @@
 package com.dpdev.entity;
 
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
@@ -21,6 +23,11 @@ public class User {
   //  @Convert(converter = BirthdayConverter.class)
     @Column(name = "birth_date")
     private Birthday birthDate;
+
+    @Type(type = "jsonb")
+    private String info;
+
     @Enumerated(EnumType.STRING)
     private Role role;
+
 }
