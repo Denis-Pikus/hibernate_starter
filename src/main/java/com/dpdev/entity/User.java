@@ -18,14 +18,10 @@ import javax.persistence.*;
 @Table(name = "users", schema = "public")
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Column(unique = true)
     private String username;
 
-    @Embedded
+    @EmbeddedId
     private PersonalInfo personalInfo;
 
 //    @Type(type = "com.vladmihalcea.hibernate.type.json.JsonBinaryType")
