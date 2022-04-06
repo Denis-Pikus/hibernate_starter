@@ -13,6 +13,7 @@
     <property name="format_sql">true</property>
     <property name="connection.pool_size">30</property>
     <mapping class="com.dpdev.entity.User"/>
+    <mapping class="com.dpdev.entity.Company"/>
     <!-- DB schema will be updated if needed -->
     <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
   </session-factory>
