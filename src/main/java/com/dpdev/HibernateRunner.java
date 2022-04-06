@@ -34,8 +34,9 @@ public class HibernateRunner {
             var session1 = sessionFactory.openSession();
             try (session1) {
                 var transaction = session1.beginTransaction();
-                session1.save(company);
-                session1.saveOrUpdate(user);
+                var user1 = session1.get(User.class, 1L);
+                //                session1.save(company);
+//                session1.saveOrUpdate(user);
 
                 session1.getTransaction().commit();
             }
