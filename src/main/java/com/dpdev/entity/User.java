@@ -1,5 +1,6 @@
 package com.dpdev.entity;
 
+import com.dpdev.converter.BirthdayConverter;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,14 +17,18 @@ import javax.persistence.*;
 @Entity
 @Table(name = "users", schema = "public")
 public class User {
-    @Id
-    private String username;
-    private String firstname;
-    private String lastname;
-  //  @Convert(converter = BirthdayConverter.class)
-    @Column(name = "birth_date")
-    private Birthday birthDate;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true)
+    private String username;
+
+    @Embedded
+    private PersonalInfo personalInfo;
+
+//    @Type(type = "com.vladmihalcea.hibernate.type.json.JsonBinaryType")
     @Type(type = "jsonb")
     private String info;
 

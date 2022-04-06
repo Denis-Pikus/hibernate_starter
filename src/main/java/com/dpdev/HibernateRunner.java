@@ -1,42 +1,40 @@
 package com.dpdev;
 
-import com.dpdev.converter.BirthdayConverter;
-import com.dpdev.entity.Birthday;
-import com.dpdev.entity.Role;
+import com.dpdev.entity.PersonalInfo;
 import com.dpdev.entity.User;
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import com.dpdev.util.HibernateUtil;
+
 import org.hibernate.HibernateException;
-import org.hibernate.cfg.Configuration;
 
-import java.time.LocalDate;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class HibernateRunner {
+
     public static void main(String[] args) throws HibernateException {
-        var configuration = new Configuration();
-        // configuration.addAnnotatedClass(User.class);
 
-        configuration.addAttributeConverter(new BirthdayConverter(), true);
-        configuration.registerTypeOverride(new JsonBinaryType());
-        configuration.configure();
+        User user = User.builder()
+            .username("petr@mail.ru")
+            .personalInfo(PersonalInfo.builder()
+                .lastname("Petrov")
+                .firstname("Petr")
+                .build())
+            .build();
+        log.info("User entity is in transient state, object: {}", user);
 
-        try (var sessionFactory = configuration.buildSessionFactory();
-             var session = sessionFactory.openSession()) {
-            session.beginTransaction();
-            var user = User.builder()
-                    .username("ivan2@gmail.com")
-                    .firstname("Ivan")
-                    .lastname("Ivanov")
-                    .info("""
-                            {
-                            "name": "Ivan",
-                            "id": 25
-                            }
-                            """)
-                    .birthDate(new Birthday(LocalDate.of(2000, 1, 19)))
-                    .role(Role.ADMIN)
-                    .build();
-            session.save(user);
-            session.getTransaction().commit();
+        try (var sessionFactory = HibernateUtil.buildSessionFactory()) {
+            var session1 = sessionFactory.openSession();
+            try (session1) {
+                var transaction = session1.beginTransaction();
+                log.info("Transaction is created, {}", transaction);
+                session1.saveOrUpdate(user);
+                log.info("User is in persistent state, object: {}", user);
+                session1.getTransaction().commit();
+            }
+            log.warn("User entity is in detached state: {}, session is closed {}", user, session1);
+        } catch (Exception exception) {
+            log.error("Exception occurred", exception);
+            throw exception;
         }
     }
 }
