@@ -9,6 +9,7 @@ import com.dpdev.entity.User;
 import com.dpdev.util.HibernateUtil;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Transaction;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,11 +21,11 @@ public class HibernateRunner {
             .name("Google")
             .build();
 
-        User user = User.builder()
-            .username("petr@mail.ru")
+        User user1 = User.builder()
+            .username("vas@mail.ru")
             .personalInfo(PersonalInfo.builder()
-                .lastname("Petrov")
-                .firstname("Petr")
+                .lastname("Vasya")
+                .firstname("VAs")
                 .birthDate(new Birthday(LocalDate.of(2000, 1, 1)))
                 .build())
             .company(company)
@@ -33,10 +34,12 @@ public class HibernateRunner {
         try (var sessionFactory = HibernateUtil.buildSessionFactory()) {
             var session1 = sessionFactory.openSession();
             try (session1) {
-                var transaction = session1.beginTransaction();
-                var user1 = session1.get(User.class, 1L);
-                //                session1.save(company);
-//                session1.saveOrUpdate(user);
+                Transaction transaction = session1.beginTransaction();
+                //User user1 = session1.get(User.class, 2L);
+                session1.save(company);
+                //var company1 = session1.get(Company.class, 1);
+                //user1.setCompany(company1);
+                session1.save(user1);
 
                 session1.getTransaction().commit();
             }
