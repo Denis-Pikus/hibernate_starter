@@ -4,6 +4,7 @@ import com.dpdev.entity.Chat;
 import com.dpdev.entity.Company;
 import com.dpdev.entity.Profile;
 import com.dpdev.entity.User;
+import com.dpdev.entity.UserChat;
 import com.dpdev.util.HibernateUtil;
 
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,13 +30,16 @@ class HibernateRunnerTest {
             var session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            var user = session.get(User.class, 14L);
-            var chat = Chat.builder()
-                .name("dmdev")
+            var user = session.get(User.class, 10L);
+            var chat = session.get(Chat.class, 1L);
+            var userChat = UserChat.builder()
+                .createdAt(Instant.now())
+                .createdBy(user.getUsername())
                 .build();
-            user.addChat(chat);
-            session.save(chat);
 
+            userChat.setUser(user);
+            userChat.setChat(chat);
+            session.save(userChat);
 
             session.getTransaction().commit();
         }
