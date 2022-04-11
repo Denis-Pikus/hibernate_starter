@@ -1,6 +1,8 @@
 package com.dpdev.entity;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import lombok.AllArgsConstructor;
@@ -22,7 +24,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Table(name = "users", schema = "public")
-public class User {
+public class User implements Comparable<User>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,6 +57,10 @@ public class User {
 
     @Builder.Default
     @OneToMany(mappedBy = "user")
-    private Set<UserChat> userChats = new HashSet<>();
+    private List<UserChat> userChats = new ArrayList<>();
 
+    @Override
+    public int compareTo(User o) {
+        return username.compareTo(o.username);
+    }
 }

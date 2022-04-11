@@ -2,6 +2,7 @@ package com.dpdev;
 
 import com.dpdev.entity.Chat;
 import com.dpdev.entity.Company;
+import com.dpdev.entity.LocaleInfo;
 import com.dpdev.entity.Profile;
 import com.dpdev.entity.User;
 import com.dpdev.entity.UserChat;
@@ -23,6 +24,20 @@ import java.util.stream.Collectors;
 import lombok.Cleanup;
 
 class HibernateRunnerTest {
+
+    @Test
+    void localeInfo() {
+        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+            var session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            var company = session.get(Company.class, 1);
+            company.getLocales().add(LocaleInfo.of("ru", "Описание на русском"));
+            company.getLocales().add(LocaleInfo.of("en", "English description"));
+
+            session.getTransaction().commit();
+        }
+    }
 
     @Test
     void checkManyToMany() {
