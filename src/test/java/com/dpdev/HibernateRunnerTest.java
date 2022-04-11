@@ -26,13 +26,25 @@ import lombok.Cleanup;
 class HibernateRunnerTest {
 
     @Test
+    void localeInfoMapRealization() {
+        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+            var session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            var company = session.get(Company.class, 1);
+            company.getUsers().forEach((k, v) -> System.out.println(v));
+            session.getTransaction().commit();
+        }
+    }
+
+    @Test
     void localeInfo() {
         try (var sessionFactory = HibernateUtil.buildSessionFactory();
             var session = sessionFactory.openSession()) {
             session.beginTransaction();
 
             var company = session.get(Company.class, 1);
-            company.getLocales().add(LocaleInfo.of("ru", "Описание на русском"));
+            company.getLocales().add(LocaleInfo.of("ru", "???????? ?? ???????"));
             company.getLocales().add(LocaleInfo.of("en", "English description"));
 
             session.getTransaction().commit();
@@ -105,7 +117,7 @@ class HibernateRunnerTest {
             session.beginTransaction();
 
             company = session.getReference(Company.class, 1);
-            company.getUsers().removeIf(user -> user.getId().equals(8L));
+//            company.getUsers().removeIf(user -> user.getId().equals(8L));
 
             session.getTransaction().commit();
         }
