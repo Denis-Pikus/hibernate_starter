@@ -21,15 +21,15 @@ public class HibernateRunner {
             .name("Google")
             .build();
 
-        User user1 = User.builder()
-            .username("vas@mail.ru")
-            .personalInfo(PersonalInfo.builder()
-                .lastname("Vasya")
-                .firstname("VAs")
-                .birthDate(new Birthday(LocalDate.of(2000, 1, 1)))
-                .build())
-            .company(company)
-            .build();
+//        User user1 = User.builder()
+//            .username("vas@mail.ru")
+//            .personalInfo(PersonalInfo.builder()
+//                .lastname("Vasya")
+//                .firstname("VAs")
+//                .birthDate(new Birthday(LocalDate.of(2000, 1, 1)))
+//                .build())
+//            .company(company)
+//            .build();
 
         try (var sessionFactory = HibernateUtil.buildSessionFactory()) {
             var session1 = sessionFactory.openSession();
@@ -39,7 +39,7 @@ public class HibernateRunner {
                 session1.save(company);
                 //var company1 = session1.get(Company.class, 1);
                 //user1.setCompany(company1);
-                session1.save(user1);
+//                session1.save(user1);
 
                 session1.getTransaction().commit();
             }
