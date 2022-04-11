@@ -8,6 +8,9 @@ import com.dpdev.entity.User;
 import com.dpdev.entity.UserChat;
 import com.dpdev.util.HibernateUtil;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.type.descriptor.sql.NVarcharTypeDescriptor;
 import org.junit.jupiter.api.Test;
 
 import javax.persistence.Column;
@@ -24,6 +27,19 @@ import java.util.stream.Collectors;
 import lombok.Cleanup;
 
 class HibernateRunnerTest {
+
+    @Test
+    void checkH2() {
+        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+            final var session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            final var company = Company.builder()
+                .name("Google")
+                .build();
+            session.save(company);
+            session.getTransaction().commit();
+        }
+    }
 
     @Test
     void localeInfoMapRealization() {
@@ -44,8 +60,8 @@ class HibernateRunnerTest {
             session.beginTransaction();
 
             var company = session.get(Company.class, 1);
-            company.getLocales().add(LocaleInfo.of("ru", "???????? ?? ???????"));
-            company.getLocales().add(LocaleInfo.of("en", "English description"));
+//            company.getLocales().add(LocaleInfo.of("ru", "???????? ?? ???????"));
+//            company.getLocales().add(LocaleInfo.of("en", "English description"));
 
             session.getTransaction().commit();
         }
