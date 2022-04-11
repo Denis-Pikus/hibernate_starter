@@ -6,6 +6,7 @@ import com.dpdev.entity.LocaleInfo;
 import com.dpdev.entity.Profile;
 import com.dpdev.entity.User;
 import com.dpdev.entity.UserChat;
+import com.dpdev.util.HibernateTestUtil;
 import com.dpdev.util.HibernateUtil;
 
 import org.hibernate.Session;
@@ -29,8 +30,8 @@ import lombok.Cleanup;
 class HibernateRunnerTest {
 
     @Test
-    void checkH2() {
-        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+    void checkDockerTestcontainers() {
+        try (var sessionFactory = HibernateTestUtil.buildSessionFactory();
             final var session = sessionFactory.openSession()) {
             session.beginTransaction();
             final var company = Company.builder()

@@ -37,8 +37,8 @@ public class User implements Comparable<User>{
     private PersonalInfo personalInfo;
 
 //    @Type(type = "com.vladmihalcea.hibernate.type.json.JsonBinaryType")
-//    @Type(type = "jsonb")
-//    private String info;
+    @Type(type = "jsonb")
+    private String info;
 
     @Enumerated(EnumType.STRING)
     private Role role;
